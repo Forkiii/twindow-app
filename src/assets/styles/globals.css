@@ -1,6 +1,5 @@
-/* Page layouts */
 .page-container {
-  min-height: calc(100vh - 120px); /* Adjust based on header/footer height */
+  min-height: 100vh;
   padding: 2rem;
   background-color: var(--color-bg);
 }
@@ -25,7 +24,6 @@
   margin-bottom: 2rem;
 }
 
-/* Cards and sections */
 .card {
   background: var(--color-bg-light);
   border-radius: 8px;
@@ -33,7 +31,6 @@
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   margin-bottom: 1rem;
 }
-
 .header{
   display: flex;
   justify-content: space-between;
@@ -48,6 +45,13 @@
   color: var(--color-text-muted);
 }
 .headertext{
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: var(--color-text);
+  text-decoration: none;
+}
+.headertext:hover{
+  color: var(--color-text-muted);
   text-decoration: none;
 }
 .nav-links {
@@ -60,4 +64,9 @@
   --color-bg-light: #5D4090;
   --color-text: #E3D6F7;
   --color-text-muted: #6b7280;
+}
+
+.text-center{ 
+  color: var(--color-text);
+  text-align: center;
 }
