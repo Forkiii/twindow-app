@@ -1,4 +1,5 @@
 .page-container {
+  margin-top: 3.5rem;
   min-height: 100vh;
   padding: 2rem;
   background-color: var(--color-bg);
@@ -25,19 +26,32 @@
 }
 
 .card {
-  background: var(--color-bg-light);
+  background: var(--color-primary);
   border-radius: 8px;
   padding: 1.5rem;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   margin-bottom: 1rem;
 }
-.header{
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height:50px;
+  z-index: 999;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding:2rem;
+  padding: 2rem;
   background-color: var(--color-bg);
+  box-shadow: 0 0px 0px white;
+
+  background-image: linear-gradient(to bottom, var(--color-text) 0.1px, transparent 0.5px);
+  background-size: 100% 1px;
+  background-repeat: no-repeat;
+  background-position: bottom; /* ← This line fixes it */
 }
+
 .footer{
   padding: 1rem;
   background-color: var(--color-bg);
@@ -60,13 +74,14 @@
 }
 
 :root {
-  --color-bg: #080310;
-  --color-bg-light: #5D4090;
-  --color-text: #E3D6F7;
+  --color-bg: #04000a;
+  --color-primary: #a46afb;
+  --color-secondary: #8c6fbe;
+  --color-accent: #fabc34;
+  --color-text: #ebe0fe;
   --color-text-muted: #6b7280;
 }
 
 .text-center{ 
-  color: var(--color-text);
   text-align: center;
 }
