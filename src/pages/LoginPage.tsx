@@ -1,17 +1,55 @@
+import Button from "../components/Button";
+
 const LoginPage = () => {
   return (
-    <div className="page-container">
-      <div className="page-content">
-        <h1 className="page-title">Login</h1>
-        <p className="page-subtitle">Sign in to your TWindow account</p>
-        <div className="card">
-          <div className="text-center">
-            <p className="text-gray">Login form will be built here</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  )
-}
+  <div className="bgcolor flex flex-col items-center min-h-screen text-center space-y-10 justify-center gap-10 ">
 
-export default LoginPage
+      <h1 style={{ color: "var(--color-text)" }} className="text-4xl">
+        Login
+      </h1>
+      <p
+        style={{ color: "var(--color-text-muted)" }}
+        className="text-lg mt-2 mb-6"
+      >
+        Sign in to your T-Window account
+      </p>
+      <input
+        className="text_input max-w-80 w-full outline-none spellcheck-false"
+        type="text"
+        placeholder="Username"
+      />
+        <input
+        className="text_input max-w-80 w-full outline-none spellcheck-false"
+        type="password"
+        placeholder="Password"
+      />
+      <Button>Login</Button> 
+      <p
+        style={{ color: "var(--color-text-muted)" }}
+        className="text-sm mt-4">
+        Don't have an account?{" "}
+        <a
+          style={{ color: "var(--color-primary)" }}
+          href="/signup"
+          className="underline"
+        >
+          Sign up
+        </a>
+      </p>
+      <p
+        style={{ color: "var(--color-text-muted)" }}
+        className="text-sm mt-2"
+      >
+        <a
+          style={{ color: "var(--color-primary)" }}
+          href="/"
+          className="underline"
+        >
+          Back to home
+        </a>
+      </p>
+    </div>
+  );
+};
+
+export default LoginPage;
