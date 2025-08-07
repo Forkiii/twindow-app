@@ -2,22 +2,19 @@ import { Link } from 'react-router-dom'
 
 const Header = () => {
   return (
-    <header>
-<div className="header headertext flex justify-between items-center px-8 py-4"> 
-  <div> 
-    <Link to="/" className="hover:[color:var(--color-secondary)]">TWindow</Link> 
-  </div> 
-  <div className="flex items-center gap-20"> 
-    <Link to="/" className="hover:[color:var(--color-secondary)]">Product</Link> 
-    <Link to="/" className="hover:[color:var(--color-secondary)]">Features</Link> 
-    <Link to="/" className="hover:[color:var(--color-secondary)]">Marketplace</Link> 
-    <Link to="/" className="hover:[color:var(--color-secondary)]">Company</Link> 
-  </div>
-  <div>
-    <Link to="/" className="hover:[color:var(--color-secondary)]">Log in →</Link>
-  </div>
-</div>
-  </header>
+    <header className=" header flex justify-center-safe  max-h-12 gap-60 ">
+          <Link to="/" className="bg-clip-text text-transparent bg-gradient-to-r
+                 from-neutral-100 to-neutral-100
+                 hover:from-[var(--color-accent)] hover:to-[var(--color-primary)]
+                 transition-colors duration-500 ease-in-out">Home</Link>
+    
+          <Link to="/" className="bg-clip-text text-transparent bg-gradient-to-r   
+                 dark:from-neutral-100 dark:to-neutral-100
+                 hover:from-[var(--color-accent)] hover:to-[var(--color-primary)]
+                 transition-colors duration-500 ease-in-out">Profile</Link>
+
+
+    </header>
   )
 }
 

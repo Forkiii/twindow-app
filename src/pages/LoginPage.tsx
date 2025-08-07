@@ -2,9 +2,9 @@ import Button from "../components/Button";
 
 const LoginPage = () => {
   return (
-  <div className="bgcolor flex flex-col items-center min-h-screen text-center space-y-10 justify-center gap-10 ">
+  <div className=" bgcolor flex flex-col items-center min-h-screen text-center space-y-10 justify-center gap-10 ">
 
-      <h1 style={{ color: "var(--color-text)" }} className="text-4xl">
+      <h1 style={{ color: "var(--color-text)" }} className="  text-4xl">
         Login
       </h1>
       <p
@@ -23,7 +23,7 @@ const LoginPage = () => {
         type="password"
         placeholder="Password"
       />
-      <Button>Login</Button> 
+      <Button className="w-25">Login</Button> 
       <p
         style={{ color: "var(--color-text-muted)" }}
         className="text-sm mt-4">

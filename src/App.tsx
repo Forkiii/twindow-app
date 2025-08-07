@@ -1,7 +1,9 @@
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom'
 import Layout from './components/layout/Layout'
+import FriendsPage from './pages/FriendsPage.tsx'
 import LandingPage from './pages/LandingPage.tsx'
 import LoginPage from './pages/LoginPage.tsx'
+import ProfilePage from './pages/ProfilePage.tsx'
 import SignupPage from './pages/SignupPage.tsx'
 function App() {
   return (
@@ -11,6 +13,8 @@ function App() {
           <Route index element={<LandingPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signup" element={<SignupPage />} />
+          <Route path="/profile" element={<ProfilePage />} />
+          <Route path='/friends' element={<FriendsPage />} />
         </Route>
       </Routes>
     </Router>

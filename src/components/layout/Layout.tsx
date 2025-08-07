@@ -3,7 +3,7 @@ import Footer from './Footer'
 
 const Layout = () => {
   return (
-    <div >
+    <div className='gradientbg'>
       <main >
         <div >
           <Outlet />
