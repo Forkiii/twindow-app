@@ -23,7 +23,7 @@ const LoginPage = () => {
         type="password"
         placeholder="Password"
       />
-      <Button  to="/profile" className="w-25">Login</Button>
+      <Button  to="/Dashboard" className="w-25">Login</Button>
       <p
         style={{ color: "var(--color-text-muted)" }}
         className="text-sm mt-4">
