@@ -122,15 +122,9 @@ const SignupPage = () => {
           placeholder="Enter your password"
           onChange={handleOnChange}
         />
-        {/* <input
-        className="text_input max-w-80 w-full outline-none spellcheck-false"
-        type="password"
-        placeholder="Confirm Password"
-      /> */}
         <Button type="submit">Sign Up</Button>
       </form>
 
-      {/* Button for signup */}
       <p
         style={{ color: "var(--color-text-muted)" }}
         className="text-sm mt-4">
