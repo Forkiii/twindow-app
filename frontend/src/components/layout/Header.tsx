@@ -8,7 +8,7 @@ const Header = () => {
   }
   return (<header className="header flex " style={{ padding: '0.75rem' }}>
     <div className='justify-self-start' >
-      <Link to="/" className="bg-clip-text text-transparent bg-gradient-to-r
+      <Link to="/dashboard" className="bg-clip-text text-transparent bg-gradient-to-r
                from-neutral-100 to-neutral-100
                hover:from-[var(--color-accent)] hover:to-[var(--color-primary)]
                transition-colors duration-500 ease-in-out ">Home</Link>

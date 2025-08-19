@@ -1,93 +1,28 @@
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
+import { useNavigate } from 'react-router-dom';
 import Button from "../components/Button";
 
 const SignupPage = () => {
-  //signup logic
+  const [userData, setUserData] = useState({ username: "", password: "" });
   const navigate = useNavigate();
-  const [inputValue, setInputValue] = useState({
-    password: "",
-    username: "",
-  });
-  const { password, username } = inputValue;
-  const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setInputValue({
-      ...inputValue,
-      [name]: value,
-    });
-  };
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setUserData({ ...userData, [e.target.name]: e.target.value });
+  }
 
-  const handleError = (err: String) =>
-    toast.error(err, {
-      position: "bottom-left",
-    });
-  const handleSuccess = (msg: String) =>
-    toast.success(msg, {
-      position: "bottom-right",
-    });
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Submitting form with data:', inputValue);
-
     try {
-      
-      const { data } = await axios.post(
-        "http://localhost:5000/api/signup",
-        {
-          ...inputValue,
-        },
-        {
-          withCredentials: true,
-        }
-      );
-
-      console.log('Response received:', data);
-
-      const { success, message } = data;
-      if (success) {
-        handleSuccess(message);
-        navigate("/dashboard",{
-        state: { 
-            user: data.user,
-            message: "Welcome! Your account has been created successfully." 
-          } 
-          })
-      } else {
-        handleError(message);
-      }
-    } catch (error) {
-      console.error('Request error:', error);
-
-      // Type guard to check if error is an AxiosError
-      if (axios.isAxiosError(error)) {
-        if (error.code === 'ECONNABORTED') {
-          handleError("Request timed out - server might be slow");
-        } else if (error.response) {
-          // Server responded with error status
-          console.log('Error response:', error.response.data);
-          handleError(`Server error: ${error.response.data?.message || 'Unknown error'}`);
-        } else if (error.request) {
-          // Request made but no response
-          console.log('No response received:', error.request);
-          handleError("No response from server - check if server is running");
-        } else {
-          handleError("Network error or server is not responding");
-        }
-      } else {
-        // Handle non-Axios errors
-        handleError("An unexpected error occurred");
-      }
+      const res = await axios.post('http://localhost:5000/api/signup', userData,);
+        // Backend says signup succeeded
+       alert(res.data.message); 
+       localStorage.setItem("user", JSON.stringify(res.data.user));
+        navigate("/dashboard");
+    } catch (err  ) {
+       const error = err as AxiosError<{ message: string }>;
+        alert(error.response?.data?.message || "Signup failed");
     }
-
-    setInputValue({
-      ...inputValue,
-      password: "",
-      username: "",
-    });
   };
 
   return (
@@ -98,8 +33,7 @@ const SignupPage = () => {
       </h1>
       <p
         style={{ color: "var(--color-text-muted)" }}
-        className="text-lg mt-2 mb-6"
-      >
+        className="text-lg mt-2 mb-6">
         Sign up for your T-Window account
       </p>
 
@@ -110,17 +44,17 @@ const SignupPage = () => {
           className="text_input max-w-80 w-full outline-none spellcheck-false"
           type="text"
           name="username"
-          value={username}
+          value={userData.username}
+          onChange={handleChange}
           placeholder="Enter your username"
-          onChange={handleOnChange}
         />
         <input
           className="text_input max-w-80 w-full outline-none spellcheck-false"
           type="password"
           name="password"
-          value={password}
+          value={userData.password}
+          onChange={handleChange}
           placeholder="Enter your password"
-          onChange={handleOnChange}
         />
         <Button type="submit">Sign Up</Button>
       </form>

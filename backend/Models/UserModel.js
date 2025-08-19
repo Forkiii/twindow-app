@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-const userSchema = new mongoose.Schema({
+const User = new mongoose.Schema({
   username: {
     type: String,
     required: true,
@@ -10,9 +10,8 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true
   }
-  // Remove email field completely if you're not using it
 }, {
-  timestamps: true // This adds createdAt and updatedAt automatically
+  timestamps: true
 });
 
-export default mongoose.model('User', userSchema);
+export default mongoose.model('User', User);

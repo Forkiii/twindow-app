@@ -1,54 +1,33 @@
-import axios from "axios";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify/unstyled";
+import { useNavigate } from 'react-router-dom';
+
+import axios, { AxiosError } from "axios";
 import Button from "../components/Button";
 const LoginPage = () => {
-
+  const [userData, setUserData] = useState({ username: "", password: "" });
   const navigate = useNavigate();
-  const [inputValue, setInputValue] = useState({
-    username: "",
-    password: ""
-  });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setInputValue({
-      ...inputValue,                // keep the other fields unchanged
-      [e.target.name]: e.target.value // update the field being typed into
-    });
-  };
-
-
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault(); // stops page reload
-if (!inputValue.username || !inputValue.password) {
-    toast.error("Please fill both username and password");
-    return;
+    setUserData({ ...userData, [e.target.name]: e.target.value });
   }
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
     try {
-      const res = await axios.post("/api/login", {
-        username: inputValue.username,
-        password: inputValue.password
-      });
-
-      // Save token (localStorage or cookies)
-      localStorage.setItem("token", res.data.token);
-
-      const { success } = res.data;
-      if(success){
-        navigate("/dashboard",{
-        state: { 
-            user: res.data.user,
-            message: "Welcome!" 
-          } 
-          })
-      } 
-      }
-    catch (err: any) {
-      // Show error
-      toast.error(err.response?.data?.message || "Login failed");
+      const res = await axios.post('http://localhost:5000/api/login', userData,);
+      alert(res.data.message);
+      localStorage.setItem("user", JSON.stringify(res.data.user));
+      navigate("/dashboard");
+    } catch (err) {
+      const error = err as AxiosError<{ message: string }>;
+      alert(error.response?.data?.message || "login failed");
     }
-  };
+
+  }
+
+
+
+
   return (
     <div className=" bgcolor flex flex-col items-center min-h-screen text-center space-y-10 justify-center gap-10 ">
 
@@ -62,15 +41,12 @@ if (!inputValue.username || !inputValue.password) {
         Sign in to your T-Window account
       </p>
 
-
-
       {/* loginform */}
       <form onSubmit={handleSubmit} className="flex flex-col items-center gap-4">
         <input
           className="text_input max-w-80 w-full outline-none spellcheck-false"
           type="text"
           name="username"
-          value={inputValue.username}
           onChange={handleChange}
           placeholder="Username"
         />
@@ -78,12 +54,9 @@ if (!inputValue.username || !inputValue.password) {
           className="text_input max-w-80 w-full outline-none spellcheck-false"
           type="password"
           name="password"
-          value={inputValue.password}
-          placeholder="Enter your password"
           onChange={handleChange}
-        />
+          placeholder="Enter your password" />
         <Button type="submit">Login</Button>
-
       </form>
       <p
         style={{ color: "var(--color-text-muted)" }}
