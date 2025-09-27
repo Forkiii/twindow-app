@@ -6,6 +6,7 @@ import Button from "../components/Button";
 const SignupPage = () => {
   const [userData, setUserData] = useState({ username: "", password: "" });
   const navigate = useNavigate();
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUserData({ ...userData, [e.target.name]: e.target.value });
   }
@@ -15,13 +16,16 @@ const SignupPage = () => {
     e.preventDefault();
     try {
       const res = await axios.post('http://localhost:5000/api/signup', userData,);
-        // Backend says signup succeeded
-       alert(res.data.message); 
-       localStorage.setItem("user", JSON.stringify(res.data.user));
-        navigate("/dashboard");
-    } catch (err  ) {
-       const error = err as AxiosError<{ message: string }>;
-        alert(error.response?.data?.message || "Signup failed");
+      // Backend says signup succeeded
+      alert(res.data.message);
+      localStorage.setItem("user", JSON.stringify(res.data.user));
+      navigate("/dashboard");
+      
+      
+      
+    } catch (err) {
+      const error = err as AxiosError<{ message: string }>;
+      alert(error.response?.data?.message || "Signup failed");
     }
   };
 
