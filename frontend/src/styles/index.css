@@ -19,5 +19,22 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #f9fafb;
+
+}
+.gradientbg {
+    minHeight: 100vh;
+    background-color: var(--color-bg);
+    background-image: radial-gradient( circle farthest-corner at -140% 0%, var(--color-primary) 0%, var(--color-bg) 90% );
+
+}
+
+
+
+:root {
+  --color-bg: #04000a;
+  --color-primary: #a46afb;
+  --color-secondary: #8c6fbe;
+  --color-accent: #fabc34;
+  --color-text: #ebe0fe;
+  --color-text-muted: #8f8b8b;
 }

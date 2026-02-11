@@ -1,94 +1,176 @@
-import axios, { AxiosError } from "axios";
-import { useState } from "react";
-import { useNavigate } from 'react-router-dom';
-import Button from "../components/Button";
+import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { authAPI } from '../services/api';
 
-const SignupPage = () => {
-  const [userData, setUserData] = useState({ username: "", password: "" });
+export default function SignupPage() {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setUserData({ ...userData, [e.target.name]: e.target.value });
-  }
-
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setError('');
+
+    // Validate passwords match
+
+    if (password !== confirmPassword) {
+      
+      setError('Passwords do not match');
+      return;
+    }
+
+    // Validate password length
+    // if (password.length < 6) {
+    //   setError('Password must be at least 6 characters');
+    //   return;
+    // }
+
+    setLoading(true);
+
     try {
-      const res = await axios.post('http://localhost:5000/api/signup', userData,);
-      // Backend says signup succeeded
-      alert(res.data.message);
-      localStorage.setItem("user", JSON.stringify(res.data.user));
-      navigate("/dashboard");
+      const data = await authAPI.signup(username, password);
       
+      // Save token to localStorage
+      localStorage.setItem('token', data.token);
       
-      
-    } catch (err) {
-      const error = err as AxiosError<{ message: string }>;
-      alert(error.response?.data?.message || "Signup failed");
+      // Redirect to dashboard
+      navigate('/dashboard');
+    } catch (err: any) {
+      setError(err.message || 'Signup failed');
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div className="bgcolor flex flex-col items-center min-h-screen text-center space-y-10 justify-center gap-10 ">
+    <div style={styles.container}>
+      <div style={styles.card}>
+        <h1 style={styles.title}>Sign Up</h1>
+        
+        <form onSubmit={handleSubmit} style={styles.form}>
+          <div style={styles.inputGroup}>
+            <label style={styles.label}>Username</label>
+            <input
+              type="text"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              required
+              style={styles.input}
+              placeholder="Choose a username"
+            />
+          </div>
 
-      <h1 style={{ color: "var(--color-text)" }} className="text-4xl">
-        Sign Up
-      </h1>
-      <p
-        style={{ color: "var(--color-text-muted)" }}
-        className="text-lg mt-2 mb-6">
-        Sign up for your T-Window account
-      </p>
+          <div style={styles.inputGroup}>
+            <label style={styles.label}>Password</label>
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              style={styles.input}
+              placeholder="Choose a password"
+            />
+          </div>
 
-      {/* Input fields for signup */}
+          <div style={styles.inputGroup}>
+            <label style={styles.label}>Confirm Password</label>
+            <input
+              type="password"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              required
+              style={styles.input}
+              placeholder="Confirm your password"
+            />
+          </div>
 
-      <form onSubmit={handleSubmit} className="flex flex-col items-center gap-4">
-        <input
-          className="text_input max-w-80 w-full outline-none spellcheck-false"
-          type="text"
-          name="username"
-          value={userData.username}
-          onChange={handleChange}
-          placeholder="Enter your username"
-        />
-        <input
-          className="text_input max-w-80 w-full outline-none spellcheck-false"
-          type="password"
-          name="password"
-          value={userData.password}
-          onChange={handleChange}
-          placeholder="Enter your password"
-        />
-        <Button type="submit">Sign Up</Button>
-      </form>
+          {error && <p style={styles.error}>{error}</p>}
 
-      <p
-        style={{ color: "var(--color-text-muted)" }}
-        className="text-sm mt-4">
-        Have an account?{" "}
-        <a
-          style={{ color: "var(--color-primary)" }}
-          href="/login"
-          className="underline"
-        >
-          Sign In
-        </a>
-      </p>
-      <p
-        style={{ color: "var(--color-text-muted)" }}
-        className="text-sm mt-2"
-      >
-        <a
-          style={{ color: "var(--color-primary)" }}
-          href="/"
-          className="underline"
-        >
-          Back to home
-        </a>
-      </p>
+          <button 
+            type="submit" 
+            disabled={loading}
+            style={styles.button}
+          >
+            {loading ? 'Creating account...' : 'Sign Up'}
+          </button>
+        </form>
+
+        <p style={styles.linkText}>
+          Already have an account? <Link to="/login" style={styles.link}>Login</Link>
+        </p>
+      </div>
     </div>
   );
 }
 
-export default SignupPage
+// Same styles as LoginPage
+const styles = {
+  container: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    minHeight: '100vh',
+    backgroundColor: '#04000a',
+  },
+  card: {
+    backgroundColor: 'white',
+    padding: '2rem',
+    borderRadius: '8px',
+    boxShadow: '0 2px 10px rgba(0,0,0,0.1)',
+    width: '100%',
+    maxWidth: '400px',
+  },
+  title: {
+    textAlign: 'center' as const,
+    marginBottom: '1.5rem',
+    color: '#333',
+  },
+  form: {
+    display: 'flex',
+    flexDirection: 'column' as const,
+    gap: '1rem',
+  },
+  inputGroup: {
+    display: 'flex',
+    flexDirection: 'column' as const,
+    gap: '0.5rem',
+  },
+  label: {
+    fontWeight: 'bold',
+    color: '#555',
+  },
+  input: {
+    padding: '0.75rem',
+    border: '1px solid #ddd',
+    borderRadius: '4px',
+    fontSize: '1rem',
+  },
+  button: {
+    padding: '0.75rem',
+    backgroundColor: '#28a745',
+    color: 'white',
+    border: 'none',
+    borderRadius: '4px',
+    fontSize: '1rem',
+    cursor: 'pointer',
+    fontWeight: 'bold',
+  },
+  error: {
+    color: 'red',
+    textAlign: 'center' as const,
+    margin: '0.5rem 0',
+  },
+  linkText: {
+    textAlign: 'center' as const,
+    marginTop: '1rem',
+    color: '#666',
+  },
+  link: {
+    color: '#007bff',
+    textDecoration: 'none',
+    fontWeight: 'bold',
+  },
+};

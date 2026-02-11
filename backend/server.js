@@ -4,7 +4,11 @@ import dotenv from 'dotenv';
 import express from 'express';
 import mongoose from 'mongoose';
 import authRoute from './Routes/AuthRoute.js';
+import userRoute from './Routes/UserRoute.js';
 dotenv.config();
+console.log('TOKEN_KEY exists:', !!process.env.TOKEN_KEY);
+console.log('TOKEN_KEY length:', process.env.TOKEN_KEY?.length);
+
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -18,7 +22,8 @@ app.use(cors({
 
 app.use(cookieParser());
 app.use(express.json());
-app.use("/api", authRoute);
+app.use("/api/auth", authRoute);
+app.use("/api/user", userRoute);
 
 
 // Connect to MongoDB

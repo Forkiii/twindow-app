@@ -1,25 +1,43 @@
-import { Route, BrowserRouter as Router, Routes } from 'react-router-dom'
-import Layout from './components/layout/Layout'
-import DashboardPage from './pages/DashboardPage.tsx'
-import FriendsPage from './pages/FriendsPage.tsx'
-import LandingPage from './pages/LandingPage.tsx'
-import LoginPage from './pages/LoginPage.tsx'
-import ProfilePage from './pages/ProfilePage.tsx'
-import SignupPage from './pages/SignupPage.tsx'
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
+import ProtectedRoute from './components/ProtectedRoute.tsx';
+import DashboardPage from './pages/DashboardPage.tsx';
+import LoginPage from './pages/LoginPage.tsx';
+import ProfilePage from './pages/ProfilePage.tsx';
+import SignupPage from './pages/SignupPage.tsx';
+import './styles/index.css';
+// ==================== MAIN APP COMPONENT ====================
 function App() {
   return (
-    <Router>
+    <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Layout />}>
-          <Route index element={<LandingPage />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/signup" element={<SignupPage />} />
-          <Route path="/profile" element={<ProfilePage />} />
-          <Route path='/friends' element={<FriendsPage />} />
-          <Route path='/dashboard' element={<DashboardPage />} />        </Route>
+        {/* Public Routes */}
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/signup" element={<SignupPage />} />
+
+        {/* Protected Routes*/}
+        <Route
+          path="/dashboard"
+          element={
+            <ProtectedRoute>
+              <DashboardPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/profile"
+          element={
+            <ProtectedRoute>
+              <ProfilePage />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Default Routes */}
+        <Route path="/" element={<Navigate to="/dashboard" replace />} />
+        <Route path="*" element={<Navigate to="/login" replace />} />
       </Routes>
-    </Router>
-  )
+    </BrowserRouter>
+  );
 }
 
-export default App
+export default App;

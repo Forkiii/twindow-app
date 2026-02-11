@@ -1,8 +1,7 @@
-import jwt from 'jsonwebtoken';
+import jwt from "jsonwebtoken";
 
 export const createSecretToken = (id) => {
-  // Create a JWT token
-  return jwt.sign({ id }, process.env.JWT_SECRET, {
-    expiresIn: '1d', 
+  return jwt.sign({ id }, process.env.TOKEN_KEY, {
+    expiresIn: "7d", // Token expires in 7 days
   });
 };

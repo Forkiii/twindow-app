@@ -59,3 +59,21 @@ export const Signup = async (req, res, next) => {
         res.status(500).json({ message: "Server error", error: err.message });
     }
 }
+
+
+export const VerifyUser = async (req, res) => {
+  // If middleware passed, user is authenticated
+  res.status(200).json({
+    message: "User is authenticated",
+    isAuthenticated: true,
+    user: {
+      id: req.user._id,
+      username: req.user.username,
+    },
+  });
+};
+
+export const Logout = async (req, res) => {
+  res.clearCookie("token");
+  res.status(200).json({ message: "Logout successful" });
+};
