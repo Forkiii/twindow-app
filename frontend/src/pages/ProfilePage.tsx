@@ -122,14 +122,13 @@ export default function ProfilePage() {
     </div>
   );
 }
-
+// ========================== styles ==========================
 const styles = {
   container: {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
     minHeight: '100vh',
-    backgroundColor: '#f5f5f5',
   },
   card: {
     backgroundColor: 'white',

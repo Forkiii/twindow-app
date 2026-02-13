@@ -15,7 +15,7 @@ export const verifyToken = async (req, res, next) => {
         isAuthenticated: false 
       });
     }
-
+  console.log('Token received in middleware:', token);
     // Verify token
     const decoded = jwt.verify(token, process.env.TOKEN_KEY);
     
