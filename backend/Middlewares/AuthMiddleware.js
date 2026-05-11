@@ -3,7 +3,7 @@ import User from "../Models/UserModel.js";
 
 export const verifyToken = async (req, res, next) => {
   try {
-    // Get token from Authorization header or cookies
+    // token from header
     const authHeader = req.headers.authorization;
     const token = authHeader?.startsWith('Bearer ') 
       ? authHeader.substring(7) 
@@ -15,11 +15,9 @@ export const verifyToken = async (req, res, next) => {
         isAuthenticated: false 
       });
     }
-  console.log('Token received in middleware:', token);
-    // Verify token
     const decoded = jwt.verify(token, process.env.TOKEN_KEY);
     
-    // Find user and attach to request
+    // get the user
     const user = await User.findById(decoded.id).select('-password');
     
     if (!user) {
@@ -29,7 +27,7 @@ export const verifyToken = async (req, res, next) => {
       });
     }
 
-    // Attach user to request object
+    // attach user to req
     req.user = user;
     next();
   } catch (error) {

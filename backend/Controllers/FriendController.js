@@ -62,22 +62,29 @@ export const createFriendRequest = async (req, res) => {
         });
     }
     catch (err) {
+
         res.status(500).json({ message: "Server error", error: err.message });
     }
 }
 
 export const updateFriendRequest = async (req, res) => {
     try {
-        const senderUsername = req.params.senderUsername;  // ✅ Get sender's username from URL
-        const { status } = req.body;
-        const currentUsername = req.user.username;  // Receiver (from token)
-        
+        const senderUsername = req.params.senderUsername;
+        const  {status}  = req.body;
+        const currentUsername = req.user.username; 
         // Validate status FIRST
         if (!status || !['accepted', 'rejected'].includes(status)) {
-            return res.status(400).json({ message: "Invalid status. Must be 'accepted' or 'rejected'" });
+                return res.status(400).json({ 
+                message: "Invalid status. Must be 'accepted' or 'rejected'",
+                received: status,
+                type: typeof status
+            });
         }
         
         // Find friend request by sender and receiver usernames
+        console.log("sender: "+senderUsername);
+        console.log("reciever: "+currentUsername);
+        
         const friendRequest = await FriendRequest.findOne({
             senderUsername: senderUsername,
             receiverUsername: currentUsername,
@@ -89,8 +96,8 @@ export const updateFriendRequest = async (req, res) => {
         }
         
         // Handle ACCEPTED
-        if (status === 'accepted') {
-            // Create friendship (alphabetically ordered)
+        if (status === "accepted") {
+            // Create friendship 
             const [first, second] = [currentUsername, senderUsername].sort();
             const newFriendship = new Friendship({
                 firstUsername: first,
@@ -125,7 +132,7 @@ export const updateFriendRequest = async (req, res) => {
         try {
             const currentUsername = req.user.username;
             const friendUsername = req.params.friendUsername; 
-            
+                
             // Delete the friendship where current user is in EITHER position
             const deletedFriendship = await Friendship.findOneAndDelete({
                 $or: [

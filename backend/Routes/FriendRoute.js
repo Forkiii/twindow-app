@@ -7,8 +7,8 @@ const router = express.Router();
 
 // ========================== Friend Routes ==========================
 router.post('/friend-requests', verifyToken, createFriendRequest);
-router.get('/friend-requests', verifyToken, getFriendRequests);
 router.patch('/friend-requests/:senderUsername', verifyToken, updateFriendRequest);
+router.get('/friend-requests', verifyToken, getFriendRequests);
 router.get('/friends', verifyToken, getFriends);
 router.delete('/friends/remove/:friendUsername', verifyToken, removeFriend);
 

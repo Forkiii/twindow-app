@@ -22,9 +22,10 @@ body {
 
 }
 .gradientbg {
-    minHeight: 100vh;
+    min-height: 100vh;
     background-color: var(--color-bg);
     background-image: radial-gradient( circle farthest-corner at -140% 0%, var(--color-primary) 0%, var(--color-bg) 90% );
+      /* background-image: radial-gradient( circle farthest-corner at -140% 0%, var(--color-accent) 40%, var(--color-primary) 90%   ); */
 
 }
 

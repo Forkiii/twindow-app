@@ -2,7 +2,6 @@ import axios from 'axios';
 
 const API_URL = 'http://localhost:5000/api';
 
-// ==================== TYPE DEFINITIONS ====================
 interface User {
   id: string;
   username: string;
@@ -30,7 +29,11 @@ interface LogoutResponse {
   message: string;
 }
 
-// ==================== AXIOS INSTANCE ====================
+interface FriendResponse {
+  message: string;
+}
+
+// ==================== AXIOS ====================
 const api = axios.create({
   baseURL: API_URL,
   headers: {
@@ -39,7 +42,6 @@ const api = axios.create({
   withCredentials: true,
 });
 
-// Add token to every request
 api.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem('token');
@@ -53,7 +55,7 @@ api.interceptors.request.use(
   }
 );
 
-// ==================== AUTH ENDPOINTS ====================
+// ==================== AUTH ====================
 export const authAPI = {
   signup: async (username: string, password: string): Promise<AuthResponse> => {
     try {
@@ -92,7 +94,7 @@ export const authAPI = {
   },
 };
 
-// ==================== USER ENDPOINTS ====================
+// ==================== USER ====================
 export const userAPI = {
   getProfile: async (): Promise<ProfileResponse> => {
     try {
@@ -111,6 +113,68 @@ export const userAPI = {
       throw error.response?.data || { message: 'Failed to update profile' };
     }
   },
-};
+  createFriendRequest: async (receiverUsername: string): Promise<FriendResponse> => {
+    try {
+      const response = await api.post<FriendResponse>('/friend-requests', { receiverUsername: receiverUsername });
+      return response.data;
+
+    } catch (error: any) {
+      throw error.response?.data || { message: 'Failed to create friend request' };
+
+    }
+  },
+
+  acceptFriendRequest: async (senderUsername: string): Promise<FriendResponse> => {
+    try {
+      const response = await api.patch<FriendResponse>(`/friend-requests/${senderUsername}`, { status: 'accepted' });
+      return response.data;
+    } catch (error: any) {
+      throw error.response?.data || { message: 'Failed to accept friend request' };
+
+    }
+  },
+  rejectFriendRequest: async (senderUsername: string): Promise<FriendResponse> => {
+    try {
+      const response = await api.patch<FriendResponse>(`/friend-requests/${senderUsername}`, { status: 'rejected' });
+      return response.data;
+    } catch (error: any) {
+      throw error.response?.data || { message: 'Failed to reject friend request' };
+
+    }
+  },
+  removeFriend: async(friendUsername: string): Promise<FriendResponse>=>{
+    try {
+      const response = await api.delete<FriendResponse>(`/friends/remove/${friendUsername}`);
+      return response.data;
+    } catch (error:any) {
+      throw error.response?.data || { message: 'Failed to remove friend' };
+      
+    }
+  },
+    getFriendRequests: async(): Promise<FriendResponse>=>{
+      try {
+      const response = await api.get<FriendResponse>(`/friend-requests`);
+      return response.data;
+      } catch (error:any) {
+      throw error.response?.data || { message: 'Failed to get friend requests' };
+        
+      }
+    },
+      getFriends: async(): Promise<FriendResponse>=>{
+      try {
+      const response = await api.get<FriendResponse>(`/friends`);
+      return response.data;
+      } catch (error:any) {
+      throw error.response?.data || { message: 'Failed to get friends' };
+        
+      }
+    }
+
+
+
+}
+
+
+
 
 export default api;

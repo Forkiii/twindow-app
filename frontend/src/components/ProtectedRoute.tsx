@@ -1,54 +1,43 @@
-import { useEffect, useState } from 'react';
-import { Navigate } from 'react-router-dom';
-import { authAPI } from '../services/api';
-// ==================== PROTECTED ROUTE COMPONENT ====================
-// This wraps any route that requires authentication
-export default function ProtectedRoute({ children }: { children: React.ReactNode }) {
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
+import { useEffect, useState, type ReactNode } from 'react';
+import { Navigate } from 'react-router';
 
+export const ProtectedRoute = ({ children }: { children: ReactNode }) => {
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean|null> (null);
   useEffect(() => {
     const checkAuth = async () => {
-      const token = localStorage.getItem('token');
       
-      // No token = not authenticated
+      const token = localStorage.getItem('token')
       if (!token) {
         setIsAuthenticated(false);
         return;
       }
-
-      // Verify token 
+      
       try {
-        await authAPI.verify();
-        setIsAuthenticated(true);
+        const response = await fetch('http://localhost:5000/api/auth/verify', {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        })
+        if (response.ok) {
+          setIsAuthenticated(true)
+        }else{
+          setIsAuthenticated(false)
+          localStorage.removeItem('token')
+        }
       } catch (error) {
-        // Invalid token 
-        setIsAuthenticated(false);
-        localStorage.removeItem('token');
+        setIsAuthenticated(false)
       }
-    };
-
+      
+    }
     checkAuth();
-  }, []);
+    }, [])
 
-  // loading
-  if (isAuthenticated === null) {
-    return (
-      <div style={{ 
-        display: 'flex', 
-        justifyContent: 'center', 
-        alignItems: 'center', 
-        height: '100vh' 
-      }}>
-        Loading...
-      </div>
-    );
-  }
 
-  // !Authenticated 
-  if (!isAuthenticated) {
-    return <Navigate to="/login" replace />;
-  }
-
-  // Authenticated
-  return <>{children}</>;
+    //checking auth status
+    if(isAuthenticated===null) return <div>Loading...</div>
+    if(!isAuthenticated) return <Navigate to='/login' replace/>
+    
+    
+    //true:
+    return <>{children}</>  
 };

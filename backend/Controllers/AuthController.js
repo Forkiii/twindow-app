@@ -22,7 +22,7 @@ try {
         id: existingUser._id,
         username: existingUser.username,
       },
-      token,
+      token, //returning token 
     });
 } catch (err) {
             res.status(500).json({ message: "Server error", error: err.message });
@@ -62,7 +62,6 @@ export const Signup = async (req, res, next) => {
 
 
 export const VerifyUser = async (req, res) => {
-  // If middleware passed, user is authenticated
   res.status(200).json({
     message: "User is authenticated",
     isAuthenticated: true,
