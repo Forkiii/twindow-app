@@ -2,6 +2,9 @@ import axios from 'axios';
 
 const API_URL = 'http://localhost:5000/api';
 
+// create interface use interface to define the structure of 
+//
+//
 interface User {
   id: string;
   username: string;
@@ -58,8 +61,10 @@ api.interceptors.request.use(
 // ==================== AUTH ====================
 export const authAPI = {
   signup: async (username: string, password: string): Promise<AuthResponse> => {
+
     try {
       const response = await api.post<AuthResponse>('/auth/signup', { username, password });
+      console.log('Signup response:', response.data,"token:', localStorage.getItem('token'));");
       return response.data;
     } catch (error: any) {
       throw error.response?.data || { message: 'Signup failed' };

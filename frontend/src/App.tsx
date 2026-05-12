@@ -4,7 +4,6 @@ import DashboardPage from './pages/DashboardPage';
 import LoginPage from './pages/LoginPage';
 import ProfilePage from './pages/ProfilePage';
 import SignupPage from './pages/SignupPage';
-import './styles/index.css';
 // ==================== MAIN APP COMPONENT ====================
 function App() {
   return (
