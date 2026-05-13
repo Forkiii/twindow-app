@@ -64,7 +64,6 @@ export const authAPI = {
 
     try {
       const response = await api.post<AuthResponse>('/auth/signup', { username, password });
-      console.log('Signup response:', response.data,"token:', localStorage.getItem('token'));");
       return response.data;
     } catch (error: any) {
       throw error.response?.data || { message: 'Signup failed' };

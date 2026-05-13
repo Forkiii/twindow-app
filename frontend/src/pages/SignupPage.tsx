@@ -11,8 +11,6 @@ export default function SignUpPage() {
 //login
     const handleSignup = async () => {
      try {
-      console.log(user.username,user.password);
-      
     const data = await authAPI.signup(user.username, user.password);
     console.log('✅ Signup Success:', data);
     localStorage.setItem('token', data.token);
@@ -64,6 +62,9 @@ export default function SignUpPage() {
           <button className="" type="submit">SignUp</button>
 
         </form>
+         <button type="button" onClick={() => navigate('/login')}>
+          Already have an account?
+        </button>
       </div>
     </div>
   )

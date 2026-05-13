@@ -12,6 +12,17 @@ export default function LoginPage() {
   });
   const handleLogin = async () => {
     try {
+
+      // data: {
+      //     message: string;
+      //     user: {
+      //         id: string;
+      //         username: string;
+      //         createdAt?: string | undefined;
+      //     };
+      //     token: string;
+      // }
+
       const data = await authAPI.login(user.username, user.password);
       console.log('✅ Login Success:', data);
       localStorage.setItem('token', data.token);
@@ -20,6 +31,9 @@ export default function LoginPage() {
       console.log('❌ Login Error:', error);
     }
   };
+
+
+  // When you click submit trigger handleLogin
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
@@ -32,7 +46,7 @@ export default function LoginPage() {
 
   return (
     <div>
-      <div>
+      <div className="border-2">
         <form onSubmit={handleSubmit}>
           <input
             type="name"
@@ -58,6 +72,9 @@ export default function LoginPage() {
           <button type="submit">Login</button>
 
         </form>
+        <button type="button" onClick={() => navigate('/signup')}>
+          Don't have an account?
+        </button>
       </div>
     </div>
   )
