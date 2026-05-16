@@ -1,31 +1,18 @@
-import { useState } from "react";
-import { authAPI } from "../services/api";
+import { useContext, useState } from "react";
 import { useNavigate } from "react-router";
-
+import { AuthContext } from "../context/AuthContext";
 
 
 export default function LoginPage() {
   const navigate = useNavigate()
+  const { login } = useContext(AuthContext);
   const [user, setUser] = useState({
     username: "",
     password: "",
   });
   const handleLogin = async () => {
-    try {
-
-      // data: {
-      //     message: string;
-      //     user: {
-      //         id: string;
-      //         username: string;
-      //         createdAt?: string | undefined;
-      //     };
-      //     token: string;
-      // }
-
-      const data = await authAPI.login(user.username, user.password);
-      console.log('✅ Login Success:', data);
-      localStorage.setItem('token', data.token);
+    try { 
+      await login(user.username, user.password);
       navigate('/dashboard')
     } catch (error) {
       console.log('❌ Login Error:', error);
@@ -53,21 +40,21 @@ export default function LoginPage() {
             value={user.username}
             onChange={
               (event) => {
-                console.log("username typed:"),
-                  setUser({
-                    ...user,
-                    username: event.target.value,
-                  })
+                console.log("username typed:");
+                setUser({
+                  ...user,
+                  username: event.target.value,
+                })
               }}
             placeholder="username" />
 
           <input type="password" value={user.password} onChange={
             (event) => {
-              console.log("password typed:"),
-                setUser({
-                  ...user,
-                  password: event.target.value,
-                })
+              console.log("password typed:");
+              setUser({
+                ...user,
+                password: event.target.value,
+              })
             }} placeholder="password" />
           <button type="submit">Login</button>
 

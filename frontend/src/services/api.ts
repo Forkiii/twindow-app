@@ -5,7 +5,7 @@ const API_URL = 'http://localhost:5000/api';
 // create interface use interface to define the structure of 
 //
 //
-interface User {
+export interface User {
   id: string;
   username: string;
   createdAt?: string;
