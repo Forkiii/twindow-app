@@ -22,7 +22,6 @@ const testLogin = async () => {
   }
 };
 
-// Test verify
 const testVerify = async () => {
   try {
     const data = await authAPI.verify();

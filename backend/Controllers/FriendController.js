@@ -4,7 +4,7 @@ export const createFriendRequest = async (req, res) => {
     try {
         //reciever name from body beacuse we need to find the user to send the request to
         const { receiverUsername } = req.body
-        const senderUsername = req.user.username; // sender  usrname from token because we need to find the user to send the request from
+        const senderUsername = req.user.username; 
         const existingUser = await User.findOne({ username: receiverUsername });
         if (!existingUser) {
             return res.status(400).json({ message: "User doesn't exist" });
@@ -72,7 +72,6 @@ export const updateFriendRequest = async (req, res) => {
         const senderUsername = req.params.senderUsername;
         const  {status}  = req.body;
         const currentUsername = req.user.username; 
-        // Validate status FIRST
         if (!status || !['accepted', 'rejected'].includes(status)) {
                 return res.status(400).json({ 
                 message: "Invalid status. Must be 'accepted' or 'rejected'",
@@ -81,7 +80,6 @@ export const updateFriendRequest = async (req, res) => {
             });
         }
         
-        // Find friend request by sender and receiver usernames
         console.log("sender: "+senderUsername);
         console.log("reciever: "+currentUsername);
         
@@ -95,7 +93,6 @@ export const updateFriendRequest = async (req, res) => {
             return res.status(404).json({ message: "Friend request not found or already processed" });
         }
         
-        // Handle ACCEPTED
         if (status === "accepted") {
             // Create friendship 
             const [first, second] = [currentUsername, senderUsername].sort();
@@ -105,7 +102,6 @@ export const updateFriendRequest = async (req, res) => {
             });
             await newFriendship.save();
             
-            // Delete the friend request
             await FriendRequest.findByIdAndDelete(friendRequest._id);
             
             return res.status(200).json({ 
@@ -114,7 +110,6 @@ export const updateFriendRequest = async (req, res) => {
             });
         }
         
-        // Handle REJECTED
         if (status === 'rejected') {
             // Delete the request
             await FriendRequest.findByIdAndDelete(friendRequest._id);

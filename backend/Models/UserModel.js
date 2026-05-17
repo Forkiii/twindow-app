@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-
+import { Friendship } from './FriendModel.js';
 const User = new mongoose.Schema({
   username: {
     type: String,
@@ -9,6 +9,11 @@ const User = new mongoose.Schema({
   password: {
     type: String,
     required: true
+  },
+  is_online:{
+    type: Boolean,
+    required: true,
+    default: false
   }
 }, {
   timestamps: true

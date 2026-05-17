@@ -60,3 +60,37 @@ export const updateUserProfile = async (req, res) => {
     });
   }
 };
+
+
+
+//  updating online status
+// recieve update request from frontend/ true/false
+// if online set online el set offline el 500
+export const checkeOnlineStatus = async (req,res)=>{
+  try {
+    // const User= 
+    const is_online=req.body.is_online;
+    if (is_online){
+      console.log("true");
+     return  res.status(200).json({
+        message: "User is Online",
+        is_online: is_online,
+      })
+    }
+    
+     else{ 
+      console.log("false");
+      return  res.status(200).json({
+        message: "User is Offline",
+        is_online: is_online
+      });
+      }
+      console.log(is_online);
+
+  } catch (error) {
+    return res.status(500).json({ 
+      message: "Error updating online status", 
+      error: error.message 
+    })
+}
+}

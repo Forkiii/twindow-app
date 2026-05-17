@@ -1,10 +1,10 @@
-import { useContext, useState } from "react";
+import {useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { AuthContext } from "../context/AuthContext";
+import { useAuth } from "../context/AuthContext";
 
 export default function SignUpPage() {
   const navigate = useNavigate();
-  const { signup } = useContext(AuthContext);
+  const {signup} = useAuth()
   const [user, setUser] = useState({
     username: "",
     password: "",

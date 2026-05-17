@@ -1,65 +1,80 @@
-import { createContext, useEffect, useState, type ReactNode } from "react";
+import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
 import { authAPI } from "../services/api";
 import type { User } from "../services/api";
 
-type AuthContextValue = {
+type ContextValue = {
   user: User | null;
-  loading: boolean;
-  isAuthenticated: boolean;
-  login: (username: string, password: string) => Promise<void>;
-  signup: (username: string, password: string) => Promise<void>;
-};
-
-// eslint-disable-next-line react-refresh/only-export-components
-export const AuthContext = createContext<AuthContextValue>({
+  isAuthenticated: boolean
+  loading: boolean
+  signup: (username: string, password: string) => Promise<void>
+  login: (username: string, password: string) => Promise<void>
+}
+const AuthContext = createContext<ContextValue>({
   user: null,
-  loading: true,
   isAuthenticated: false,
-  login: async () => { },
-  signup: async () => { },
-});
-
+  loading: false,
+  login: async () => {},   
+  signup: async () => {},  
+})
 export default function AuthProvider({ children }: { children: ReactNode }) {
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<User | null>(null)
   const [loading, setLoading] = useState(true);
-  
+
   useEffect(() => {
-    // checks when component loads if user is valid or not by checking token validity
     const restoreUser = async () => {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("token")
       if (!token) {
-        setUser(null);
-        setLoading(false);
-        return;
+        setUser(null)
+        setLoading(false)
+        return  
       }
       try {
-        const data = await authAPI.verify();
-        setUser(data.user);
-      } catch {
-        localStorage.removeItem("token");
-        setUser(null);
+        const data = await authAPI.verify()
+        setUser(data.user)
+        if (!user) {
+        }
+
+      } catch (error) {
+        localStorage.removeItem("token")
       } finally {
-        setLoading(false);
+        setLoading(false)
       }
-    };
-    restoreUser();
+    }
+    restoreUser()
   }, []);
 
-  const login = async (username: string, password: string) => {
-    const data = await authAPI.login(username, password);
-    setUser(data.user);
-  };
-
-  const signup = async (username: string, password: string) => {
-    const data = await authAPI.signup(username, password);
-    setUser(data.user);
-  };
+  const login = async (username: string, password: string): Promise<void> => {
+    try {
+      const res = await authAPI.login(username,password);
+      setUser(res.user)
+      localStorage.setItem("token", res.token);
+      console.log(res.message);
+    } catch (error) {
+      throw error
+    }
+  }
+  const signup = async (username: string, password: string): Promise<void> => {
+try {
+      const res = await authAPI.signup(username,password);
+      setUser(res.user)
+      localStorage.setItem("token",res.token)
+      console.log(res.message);
+      
+    } catch (error) {
+      throw error
+    }
+  }
 
   return (
     <AuthContext.Provider
-      value={{ user, loading, isAuthenticated: user !== null, login, signup }}
-    >
+      value={{ login, signup, isAuthenticated: user !== null, loading, user }}>
       {children}
     </AuthContext.Provider>
   );
 }
+export function useAuth() {
+  const ctx = useContext(AuthContext)
+  if (!ctx) throw new Error("useAuth must be used inside <AuthProvider>")
+  return ctx
+}
+
