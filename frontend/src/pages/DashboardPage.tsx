@@ -1,12 +1,25 @@
-
-import { useAuth } from "../context/AuthContext";
+import { useEffect, useState } from "react";
+import { useTheme } from "../context/ThemeContext";
 
 export default function DashboardPage() {
-  const { user } = useAuth()
+  const [isDark,setIsDark] = useState(true)
 
+  const {theme,toggleTheme} = useTheme()
+  useEffect(()=>{
+    setIsDark(theme=="dark")
+    console.log(isDark);
+  }, [theme]);
   return(
-    <div>
-      <h1>hello {user?.username}  </h1>
+    <div className="flex flex-col gap-5">
+       <button 
+  className={`theme-toggle ${isDark ? 'dark' : ''}`}
+  onClick={toggleTheme}>
+  <span className="theme-icon">
+    {isDark ? '🌙' : '☀️'}
+  </span> 
+</button>
+        
+
     </div>
   )
 };

@@ -1,7 +1,6 @@
 import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
 import { authAPI } from "../services/api";
 import type { User } from "../services/api";
-
 type ContextValue = {
   user: User | null;
   isAuthenticated: boolean
@@ -20,6 +19,8 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null)
   const [loading, setLoading] = useState(true);
 
+
+  //auth useeffect
   useEffect(() => {
     const restoreUser = async () => {
       const token = localStorage.getItem("token")
@@ -43,6 +44,8 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
     restoreUser()
   }, []);
 
+  //theme useffect
+ 
   const login = async (username: string, password: string): Promise<void> => {
     try {
       const res = await authAPI.login(username,password);
@@ -67,7 +70,8 @@ try {
 
   return (
     <AuthContext.Provider
-      value={{ login, signup, isAuthenticated: user !== null, loading, user }}>
+      value={{ login, signup, isAuthenticated: user !== null, loading, user
+       }}>
       {children}
     </AuthContext.Provider>
   );
