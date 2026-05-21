@@ -40,7 +40,6 @@ export default function LoginPage() {
             value={user.username}
             onChange={
               (event) => {
-                console.log("username typed:");
                 setUser({
                   ...user,
                   username: event.target.value,
@@ -50,7 +49,6 @@ export default function LoginPage() {
 
           <input type="password" value={user.password} onChange={
             (event) => {
-              console.log("password typed:");
               setUser({
                 ...user,
                 password: event.target.value,

@@ -1,9 +1,15 @@
 @import "tailwindcss";
 
-body{
+body {
 
-  color:var(--color-text-muted)
+  color: var(--color-text-muted)
 }
+
+/*======================================================== */
+/*======================================================== */
+/*========================THEME=========================== */
+/*======================================================== */
+/*======================================================== */
 
 .gradientbg {
   padding: 1%;
@@ -21,31 +27,32 @@ body{
   --color-text: #ebe0fe;
   --color-text-muted: #8f8b8b;
 
-  background-image: radial-gradient(
-    circle farthest-corner at -140% 0%,
-    var(--color-primary) 0%,
-    var(--color-bg) 90%
-  );
+  background-image: radial-gradient(circle farthest-corner at -140% 0%,
+      var(--color-primary) 0%,
+      var(--color-bg) 90%);
 }
 
 /* LIGHT THEME */
 .gradientbg.light {
-  --color-bg: #ebe0fe;
+  --color-bg: #04000a;
   --color-primary: #a46afb;
   --color-secondary: #8c6fbe;
   --color-accent: #fabc34;
   --color-text: #04000a;
   --color-text-muted: #8f8b8b;
-  background-image: radial-gradient(
-    circle farthest-corner at -140% 0%,
-    var(--color-primary   ) 30%,
-    var(--color-accent) 70%
-  );
+  background-image: radial-gradient(circle farthest-corner at -100% -100%,
+      var(--color-accent) 40%,
+      var(--color-primary) 70%);
 }
+
+
+
+/*========================THEME========================= */
+/*========================BUTTON======================== */
 .theme-toggle {
   position: relative;
-  width: 60px;
-  height: 60px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   border: none;
   cursor: pointer;
@@ -55,22 +62,21 @@ body{
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 24px;
+  font-size: 18px;
   overflow: hidden;
 }
 
 .theme-toggle:hover {
   transform: scale(1.1);
-  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+  box-shadow: 0 6px 40px var(--color-bg);
 }
 
 .theme-toggle:active {
-  transform: scale(0.95);
+  transform: scale(0.7);
 }
 
-/* The icon inside */
 .theme-icon {
-  transition: transform 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  transition: transform 2s cubic-bezier(0.68, -0.55, 0.265, 1.55);
   display: inline-block;
 }
 
@@ -86,14 +92,276 @@ body{
 }
 
 .theme-toggle.dark:hover {
-  box-shadow: 0 6px 20px rgba(30, 58, 138, 0.6);
+  box-shadow: 0 6px 20px var(--color-accent);
+}
+
+/*======================================================== */
+/*========================NAVBAR========================== */
+/*======================================================== */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+    margin-right: 10%;
+    margin-left: 10%;
+    margin-bottom: 2rem;
+
+  padding: 0.4rem;
+}
+
+.nav-buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.nav-buttons button {
+  width: auto;
+  height: auto;
+  margin: 0.5rem;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 5px;
+  background-color: transparent;
+  color: var(--color-text);
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+
+/* nav + buttons if dark mode*/
+.navbar.dark {
+  background-color: rgb(4, 0, 10, 0.2);
+  color: rgb(235, 224, 254);
+}
+
+.nav-buttons.dark button:hover {
+  color: var(--color-accent);
+  background-color: rgba(235, 224, 254, 0.1)
+}
+
+/* nav + buttons if light mode*/
+.navbar.light {
+  background-color: rgb(4, 0, 10, 0.1);
+  color: var(--color-text);
+}
+
+.nav-buttons.light button:hover {
+  color: var(--color-accent);
+  background-color: rgba(4, 0, 10, 0.1)
+}
+
+
+/*======================================================== */
+/*=======================Button=========================== */
+/*======================================================== */
+.button {
+  height: 2.5rem;
+  padding: 0 1rem;
+  border: none;
+  border-radius: 5px;
+  
+  color: var(--color-text);
+  font-size: 1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+button {
+  border: none;
+  background: transparent;
+  color: inherit;
+  cursor: inherit;
+}
+
+.button:hover {
+  color: var(--color-accent);
+}
+
+.button:active {
+  transform: scale(0.95);
+}
+
+.button.light:hover {
+  background-color: rgba(9, 7, 7, 0.2);
+}
+.button.dark:hover {
+  background-color: rgb(235, 224, 254,0.2)
+}
+
+/*======================================================== */
+/*======================================================== */
+/*========================Friends========================= */
+/*=========================Page=========================== */
+/*======================================================== */
+/*======================================================== */
+.friends-panel {
+  width: min(100%, 42rem);
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.friends-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.friends-tab,.friend-action-button,.friend-action-button-reject,
+.friend-action-button-accept {
+  height: 2.5rem;
+  padding: 0 1rem;
+  border-radius: 5px;
+  color: var(--color-text);
+  background-color: rgb(4, 0, 10, 0.16);
+  border: 1px solid rgba(235, 224, 254, 0.16);
+  cursor: pointer;
+  white-space: nowrap;
+}
+.friend-action-button:hover{
+  color: var(--color-accent);
+  transition: background-color 0.3s ease, color 0.3s ease;
+  background-color: rgba(235, 224, 254, 0.1);
+}
+
+.friends-tab:hover{
+  color: var(--color-accent);
+  background-color: rgba(235, 224, 254, 0.1);
+}
+.friend-action-button-accept:hover{
+  transition: background-color 0.3s ease, color 0.3s ease;
+  color:var(--color-text-muted);
+  background-color: green;
+}
+.friend-action-button-reject:hover{
+  transition: background-color 1s ease, color 0.3s ease;
+  color:var(--color-text-muted);
+  background-color: red;
+}
+
+.friends-tab[aria-selected="true"] {
+  color: var(--color-accent);
+  border-color: color-mix(in srgb, var(--color-accent) 55%, transparent);
+}
+
+.friends-panel-body {
+  min-height: 10rem;
+  padding: 1rem;
+  border-radius: 5px;
+  background-color: rgb(4, 0, 10, 0.2);
+  border: 1px solid rgba(235, 224, 254, 0.12);
+}
+
+.friend-section {
+  width: 100%;
+}
+
+.friend-form {
+  display: grid;
+  grid-template-columns: minmax(0, 22rem) auto;
+  align-items: start;
+  gap: 0.75rem;
+}
+
+.friend-form-field {
+  width: 100%;
+  min-width: 0;
+}
+
+.friend-input {
+  width: 100%;
+  height: 2.5rem;
+  box-sizing: border-box;
+  border: 0;
+  outline: 0;
+  border-radius: 5px;
+  padding: 0 0.75rem;
+  color: #04000a;
+  background-color: #f3f4f6;
+}
+
+.friend-message {
+  min-height: 2.5rem;
+  margin: 0.4rem 0 0;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  font-weight: 700;
+  overflow-wrap: break-word;
+}
+
+.friend-message.success {
+  color: #16a34a;
+}
+
+.friend-message.error,
+.friend-state-text.error {
+  color: #ef4444;
+}
+
+.friend-state-text {
+  margin: 0;
+  min-height: 1.5rem;
+  color: var(--color-text-muted);
+}
+
+.friend-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.friend-list-item {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem;
+  border-radius: 5px;
+  background-color: rgba(235, 224, 254, 0.08);
+}
+
+.friend-list-main {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  overflow-wrap: break-word;
+}
+
+.friend-list-meta,
+.friend-empty-state {
+  color: var(--color-text-muted);
+}
+
+.friend-list-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+@media (max-width: 640px) {
+  .friend-form,
+  .friend-list-item {
+    grid-template-columns: 1fr;
+  }
+
+  .friend-action-button {
+    width: fit-content;
+  }
 }
 
 :root {
-  --color-bg: #04000a;
-  --color-primary: #a46afb;
-  --color-secondary: #8c6fbe;
-  --color-accent: #fabc34;
-  --color-text: #ebe0fe;
-  --color-text-muted: #8f8b8b;
+  --color-bg: rgb(4, 0, 10);
+  --color-primary: rgb(164, 106, 251);
+  --color-secondary: rgb(140, 111, 190);
+  --color-accent: rgb(250, 188, 52);
+  --color-text: rgb(235, 224, 254);
+  --color-text-muted: rgb(143, 139, 139);
 }

@@ -12,9 +12,7 @@ export const createFriendRequest = async (req, res) => {
         if (receiverUsername === senderUsername) {
             return res.status(400).json({ message: "You cannot send a friend request to yourself" });
         }
-
-
-        //existing
+        //existing request
         const existingRequest = await FriendRequest.findOne({
             senderUsername,
             receiverUsername,
@@ -43,7 +41,7 @@ export const createFriendRequest = async (req, res) => {
             ]
         });
         if (existingFriendship) {
-            return res.status(400).json({ message: "You are already friends" });
+            return res.status(400).json({ message: "You are already friends with this user" });
         }
 
 
@@ -80,8 +78,6 @@ export const updateFriendRequest = async (req, res) => {
             });
         }
         
-        console.log("sender: "+senderUsername);
-        console.log("reciever: "+currentUsername);
         
         const friendRequest = await FriendRequest.findOne({
             senderUsername: senderUsername,
@@ -154,18 +150,21 @@ export const updateFriendRequest = async (req, res) => {
 export const getFriendRequests = async (req, res) => {
     try {
         const currentUsername = req.user.username;
-
-        console.log("Logged user:", currentUsername);
-
         const requests = await FriendRequest.find({
             receiverUsername: currentUsername
         });
 
-        if (requests.length ===0) {
-            return res.status(400).json({ message: "No Friend Requests Found" });
+        if (requests.length === 0) {
+            return res.status(200).json({ 
+                message: "No Friend Requests Found",
+                data: []
+            });
         }
-
-        return res.json(requests);
+        
+        return res.status(200).json({
+            message: "Friend Requests Found",
+            data: requests
+        });
     } catch (err) {
         res.status(500).json({ message: "Server error", error: err.message });
     }

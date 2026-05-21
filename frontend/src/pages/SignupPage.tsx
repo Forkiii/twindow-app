@@ -1,10 +1,10 @@
-import {useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
 export default function SignUpPage() {
   const navigate = useNavigate();
-  const {signup} = useAuth()
+  const { signup } = useAuth()
   const [user, setUser] = useState({
     username: "",
     password: "",
@@ -32,43 +32,39 @@ export default function SignUpPage() {
 
   return (
     <div>
-      <div>
-        <form onSubmit={handleSubmit}>
-          <input
-            className="outline-0"
-            type="name"
-            value={user.username}
-            onChange={(event) => {
-              console.log("username typed:");
-              setUser({
-                ...user,
-                username: event.target.value,
-              });
-            }}
-            placeholder="username"
-          />
+      <form onSubmit={handleSubmit}>
+        <input
+          className="outline-0"
+          type="name"
+          value={user.username}
+          onChange={(event) => {
+            console.log("username typed:");
+            setUser({
+              ...user,
+              username: event.target.value,
+            });
+          }}
+          placeholder="username"
+        />
 
-          <input
-            className="outline-0"
-            type="password"
-            value={user.password}
-            onChange={(event) => {
-              console.log("password typed:");
-              setUser({
-                ...user,
-                password: event.target.value,
-              });
-            }}
-            placeholder="password"
-          />
-
-          <button className="" type="submit">SignUp</button>
-        </form>
-
-        <button type="button" onClick={() => navigate("/login")}>
-          Already have an account?
-        </button>
-      </div>
+        <input
+          className="outline-0"
+          type="password"
+          value={user.password}
+          onChange={(event) => {
+            console.log("password typed:");
+            setUser({
+              ...user,
+              password: event.target.value,
+            });
+          }}
+          placeholder="password"
+        />
+        <button className="" type="submit">SignUp</button>
+      </form>
+      <button type="button" onClick={() => navigate("/login")}>
+        Already have an account?
+      </button>
     </div>
   );
 }

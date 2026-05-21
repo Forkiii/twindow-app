@@ -16,7 +16,7 @@ export default function ThemeProvider({ children }: { children: ReactNode }) {
     )
     useEffect(() => {
         const checkTheme = () => {
-            theme == "dark" ? console.log("dark") : console.log("light");
+            // theme == "dark" ? console.log("dark") : console.log("light");
         }
         checkTheme()
     }, [theme]);

@@ -1,12 +1,15 @@
 import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
 import { authAPI } from "../services/api";
 import type { User } from "../services/api";
+
 type ContextValue = {
   user: User | null;
   isAuthenticated: boolean
   loading: boolean
   signup: (username: string, password: string) => Promise<void>
   login: (username: string, password: string) => Promise<void>
+
+  
 }
 const AuthContext = createContext<ContextValue>({
   user: null,
@@ -15,6 +18,10 @@ const AuthContext = createContext<ContextValue>({
   login: async () => {},   
   signup: async () => {},  
 })
+
+
+
+
 export default function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null)
   const [loading, setLoading] = useState(true);
@@ -44,14 +51,12 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
     restoreUser()
   }, []);
 
-  //theme useffect
  
   const login = async (username: string, password: string): Promise<void> => {
     try {
       const res = await authAPI.login(username,password);
       setUser(res.user)
       localStorage.setItem("token", res.token);
-      console.log(res.message);
     } catch (error) {
       throw error
     }

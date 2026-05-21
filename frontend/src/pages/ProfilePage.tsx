@@ -1,8 +1,10 @@
+import FriendsPanel from "../components/FriendsPanel"
+
 export default function ProfilePage() {
 
     return(
     <div>
-      <h1>profile</h1>
+      <FriendsPanel/>
     </div>
   )
 }
