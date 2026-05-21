@@ -1,24 +1,22 @@
-import {  useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router";
-import {  useAuth } from "../context/AuthContext";
-
+import { useAuth } from "../context/AuthContext";
 
 export default function LoginPage() {
-  const navigate = useNavigate()
-  const {login} = useAuth()
+  const navigate = useNavigate();
+  const { login } = useAuth();
   const [user, setUser] = useState({
     username: "",
     password: "",
   });
   const handleLogin = async () => {
-    try { 
+    try {
       await login(user.username, user.password);
-      navigate('/dashboard')
+      navigate("/dashboard");
     } catch (error) {
-      console.log('❌ Login Error:', error);
+      console.log("❌ Login Error:", error);
     }
   };
-
 
   // When you click submit trigger handleLogin
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -29,41 +27,43 @@ export default function LoginPage() {
       return;
     }
     handleLogin();
-  }
+  };
 
   return (
     <div>
-      <div className="border-2">
+      <div className="outline-0">
         <form onSubmit={handleSubmit}>
           <input
             type="name"
+            className="inputField"
             value={user.username}
-            onChange={
-              (event) => {
-                setUser({
-                  ...user,
-                  username: event.target.value,
-                })
-              }}
-            placeholder="username" />
+            onChange={(event) => {
+              setUser({
+                ...user,
+                username: event.target.value,
+              });
+            }}
+            placeholder="username"
+          />
 
-          <input type="password" value={user.password} onChange={
-            (event) => {
+          <input
+            className="inputField m-5 "
+            type="password"
+            value={user.password}
+            onChange={(event) => {
               setUser({
                 ...user,
                 password: event.target.value,
-              })
-            }} placeholder="password" />
+              });
+            }}
+            placeholder="password"
+          />
           <button type="submit">Login</button>
-
         </form>
-        <button type="button" onClick={() => navigate('/signup')}>
+        <button type="button" onClick={() => navigate("/signup")}>
           Don't have an account?
         </button>
       </div>
     </div>
-  )
-
+  );
 }
-
-

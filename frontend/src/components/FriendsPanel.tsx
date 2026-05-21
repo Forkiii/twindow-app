@@ -1,43 +1,61 @@
-import { useState } from "react";
 import AddFriend from "./AddFriend";
 import FriendsList from "./FriendsList";
 import FriendsRequests from "./FriendsRequests";
-
-type FriendsTab = 'add' | 'requests' | 'friends';
-
-const tabs: { id: FriendsTab; label: string }[] = [
-    { id: 'add', label: 'Add friend' },
-    { id: 'requests', label: 'Requests' },
-    { id: 'friends', label: 'Friends' },
-];
-
+import { useState } from "react";
 const FriendsPanel = () => {
-    const [activeTab, setActiveTab] = useState<FriendsTab>('add')
-
-    return (
-        <section className="friends-panel">
-            <div className="friends-tabs" role="tablist" aria-label="Friends">
-                {tabs.map(tab => (
-                    <button
-                        type="button"
-                        className="friends-tab"
-                        key={tab.id}
-                        role="tab"
-                        aria-selected={activeTab === tab.id}
-                        onClick={() => setActiveTab(tab.id)}
-                    >
-                        {tab.label}
-                    </button>
-                ))}
-            </div>
-
-            <div className="friends-panel-body" role="tabpanel">
-                {activeTab === 'add' && <AddFriend />}
-                {activeTab === 'requests' && <FriendsRequests />}
-                {activeTab === 'friends' && <FriendsList />}
-            </div>
-        </section>
-    )
-}
+  const [showAddFriend, setShowAddFriend] = useState(true);
+  const [showFriendRequests, setShowFriendRequests] = useState(false);
+  const [showFriendsList, setShowFriendsList] = useState(false);
+  const handleAddFriend = () => {
+    setShowAddFriend(true);
+    setShowFriendRequests(false);
+    setShowFriendsList(false);
+  };
+  const handleFriendRequests = () => {
+    setShowAddFriend(false);
+    setShowFriendRequests(true);
+    setShowFriendsList(false);
+  };
+  const handleFriendsList = () => {
+    setShowAddFriend(false);
+    setShowFriendRequests(false);
+    setShowFriendsList(true);
+  };
+  return (
+    <section className="friends-panel">
+      <div className="friends-tabs">
+        <button
+          className="friends-tab"
+          type="button"
+          aria-selected={showAddFriend}
+          onClick={handleAddFriend}
+        >
+          Add Friend
+        </button>
+        <button
+          className="friends-tab"
+          type="button"
+          aria-selected={showFriendRequests}
+          onClick={handleFriendRequests}
+        >
+          Friend Requests
+        </button>
+        <button
+          className="friends-tab"
+          type="button"
+          aria-selected={showFriendsList}
+          onClick={handleFriendsList}
+        >
+          Friendslist
+        </button>
+      </div>
+      <div className="friends-panel-body">
+        {showAddFriend && <AddFriend />}
+        {showFriendRequests && <FriendsRequests />}
+        {showFriendsList && <FriendsList />}
+      </div>
+    </section>
+  );
+};
 
 export default FriendsPanel;

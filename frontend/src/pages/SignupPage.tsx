@@ -4,7 +4,7 @@ import { useAuth } from "../context/AuthContext";
 
 export default function SignUpPage() {
   const navigate = useNavigate();
-  const { signup } = useAuth()
+  const { signup } = useAuth();
   const [user, setUser] = useState({
     username: "",
     password: "",
@@ -34,7 +34,7 @@ export default function SignUpPage() {
     <div>
       <form onSubmit={handleSubmit}>
         <input
-          className="outline-0"
+          className="inputField"
           type="name"
           value={user.username}
           onChange={(event) => {
@@ -48,7 +48,7 @@ export default function SignUpPage() {
         />
 
         <input
-          className="outline-0"
+          className="inputField m-5"
           type="password"
           value={user.password}
           onChange={(event) => {
@@ -60,7 +60,9 @@ export default function SignUpPage() {
           }}
           placeholder="password"
         />
-        <button className="" type="submit">SignUp</button>
+        <button className="" type="submit">
+          SignUp
+        </button>
       </form>
       <button type="button" onClick={() => navigate("/login")}>
         Already have an account?
